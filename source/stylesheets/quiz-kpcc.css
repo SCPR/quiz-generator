@@ -1,13 +1,12 @@
-$font-stack: Georgia, serif;
-$question-font: "KnockoutHTF29-JuniorLiteweight", "Arial Narrow", serif;
-$red: #C92025;
+$font-stack: 'Alight Sans', sans-serif;
+$question-font: 'Balto', sans-serif;
+$blue: #bfd1df;
 
 // Container for generated quiz
 .quiz-container {
   font-family: $font-stack;
   color: #4C4E4D;
   padding-top: 20px;
-  border-top: 3px solid $red;
 }
 
 // Text for each question
@@ -28,43 +27,43 @@ $red: #C92025;
 }
 
 // Answer options for each question
-ol.answers > li {
+ul.answers > li {
+  list-style-type: none;
   font-family: $font-stack;
   padding: 0px 0px 0px 10px;
+  font-size: 36px;
 
   &:before {
     font-family: $question-font;
     font-weight: bold;
-    color: #fff;
-    background-color: $red;
+    color: #4c4e4d;
+    background-color: $blue;
     width: 25px;
     padding: 2px 0px;
   }
   &:hover {
-    background-color: #ececec;
+    background-color: #f1f3f2;
   }
 }
 
 // Buttons
 .qq-button {
   font-family: $font-stack;
-  color: #FFFFFF;
-  text-transform: none;
-  background-color: #4C4E4D;
+  color: #4c4e4d;
+  background-color: #f1f3f2;
   &:hover {
-    background-color: $red !important;
+    background-color: $blue !important;
   }
 }
 
 // Highlights selected answer
 .selected {
-  background-color: #ececec;
-  color: #4C4E4D;
+  background-color: #f7f7f7;
 }
 
 // Submit button color when an answer is selected
 .submit-highlight {
-  background-color: #6F7170;
+  background-color: #cacbcc;
 }
 
 // Checking selected answer
@@ -122,5 +121,5 @@ ol.answers > li {
 
 // Flowchart selection
 .flowchart-selected {
-  background-color: $red !important;
+  background-color: $blue !important;
 }
