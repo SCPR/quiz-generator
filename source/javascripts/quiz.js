@@ -47,7 +47,6 @@
       "<li id='option-e'>" + input[currentQuestion].e + "</li>" +
       "<li id='option-f'>" + input[currentQuestion].f + "</li></ol>" +
       "<div class='answer'></div>");
-      //"<button class='qq-button hint'>Need a hint?</button>" +
       if (currentQuestion === (input.length-1)) {
         $(".answer").append("<button class='qq-button check-score'>See Result</button>");
         $('.check-score').on('click', finalScore);
@@ -55,30 +54,38 @@
         else { 
         $(".answer").append("<button class='qq-button q" + qnumber + "'>Next</button>");
         $('.q' + qnumber).on('click', nextQuestion[qnumber]);
-        }
-      
+        }      
     selectAnswer();
-    //$('.hint').on('click', showHint);
-    //$('.submit-answer').on('click', checkAnswer);
-    //$('.next').on('click', nextQuestion);
     trackEvent('q' + qnumber + '-displayed', 'Q' + qnumber + ' displayed');
-  }
+  };
 
+  // write the final question and answers on html to break the tie
   var buildExtraQuiz = function () {
-     $(".quiz-container").html("<div class='progress'>Extra Question &nbsp;of&nbsp;</div><div class='qq-question'><div class='qq-description'>Description here.</div><br><div class='question'>Question here.</div></div>" +
-      "<ol class='answers'><li id='option-a'>Answer 1</li>" +
-      "<li id='option-b'>Answer 2</li>" +
-      "<li id='option-c'>Answer 3</li>" +
-      "<li id='option-d'>Answer 4</li>" +
-      "<li id='option-e'>Answer 5</li>" +
-      "<li id='option-f'>Answer 6</li></ol>" +
+     $(".quiz-container").html("<div class='progress'>Bonus Question</div><div class='qq-question'><div class='qq-description'>Oops.. Seems like you are a mixed type. Let's decide on this with the final strike!</div><br><div class='question'>What’s your drink of choice?</div></div>" +
+      "<ol class='answers'></ol>" +
       "<div class='answer'></div>");
-      //"<button class='qq-button hint'>Need a hint?</button>" +
-        $(".answer").append("<button class='qq-button check-score'>See Result</button>");
-        $('.check-score').on('click', finalScore);
-    selectAnswer();
-  }
 
+     var finalQuestion = [
+      {"state": "North California", "drink": "Red wine"},
+      {"state": "Jefferson", "drink": " Marijuana"},
+      {"state": "Silicon Valley", "drink": "Martini"},
+      {"state": "South California", "drink": "Tequila"},
+      {"state": "West California", "drink": "Champagne"},
+      {"state": "Central California", "drink": "Beer"}
+    ];
+        
+    for (i = 0; i < finalQuestion.length; i++) {    
+      if (finalQuestion[i].state == window.max || finalQuestion[i].state == window.max_2) {
+         $(".answers").append("<li id='" + finalQuestion[i].state + "'>" + finalQuestion[i].drink + "</li>");
+      };                 
+    };
+    
+    $(".answer").append("<button class='qq-button check-score-final'>See Result</button>");
+    $('.check-score-final').on('click', finalScoreFinal);
+    selectAnswer();
+    
+  };
+              
   // shows (1) out of (3) questinos
   var displayProgress = function () {
     $('.progress').html("<div class='progress'>Question " + qnumber + "&nbsp;of&nbsp;" + input.length + "</div>");
@@ -92,244 +99,295 @@
         'Q' + qnumber + ' selected ' + this.id);
       $(".selected").removeClass("selected");
       $(this).addClass("selected");
-      //console.log(this);
       $(".next").addClass("submit-highlight").fadeIn();
     });
   }
 
-  // show hint
-  /* var showHint = function () {
-    trackEvent(
-      'q' + qnumber + '-hint-showed',
-      'Q' + qnumber + ' hint showed');
-    $(".answer").html(input[currentQuestion].hint);
-  } */
-
-  // check answer by comparing selected html and correct answer from input
+  // Check selected input for each question and add scores for each state accordingly
   var checkAnswer = {
 
     "1" : function () {
-    if ($(".selected").length > 0) {
-      $('li').off('click');
-      $(".hint").off('click');
-      answer = $(".selected").attr('id');
-      //console.log(answer);
-      if (answer == 'option-a') {
-        score_cen++;
-        displayProgress();
-      } else if (answer == 'option-b') {
-        score_jeff++;
-        displayProgress();
-      } 
-      else if (answer == 'option-c') {
-        score_west++;
-        displayProgress();
-      } 
-      else if (answer == 'option-d') {
-        score_south++;
-        displayProgress();
-      } 
-      else if (answer == 'option-e') {
-        score_north++;
-        displayProgress();
-      } 
-      else if (answer == 'option-f') {
-        score_silicon++;
-        displayProgress();
-      };
+      if ($(".selected").length > 0) { 
+        $('li').off('click');
+        answer = $(".selected").attr('id');
 
-      console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
-    
-    // There's no real number bigger than plus Infinity
-     /* var lowest = Number.POSITIVE_INFINITY;
-      var highest = Number.NEGATIVE_INFINITY;
-      var tmp;
-      for (var i=compareScore.length-1; i>=0; i--) {
-          tmp = compareScore[i].Cost;
-          if (tmp < lowest) lowest = tmp;
-          if (tmp > highest) highest = tmp;
-      };
-      console.log(highest, lowest); */
+        if (answer == 'option-a') {
+          score_cen++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_jeff++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_south++;
+          displayProgress();
+        } 
+        else if (answer == 'option-e') {
+          score_north++;
+          displayProgress();
+        } 
+        else if (answer == 'option-f') {
+          score_silicon++;
+          displayProgress();
+        };
 
-      /* if (currentQuestion != (input.length-1)) {
-        $(".answer").append("<button class='qq-button next'>Next</button>");
-        $('.next').on('click', nextQuestion);
-      } else {
-        $(".answer").append("<button class='qq-button check-score'>See Final Score</button>");
-        $('.check-score').on('click', finalScore);
-      } */
-    }
-  },
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+      }
+    },
 
-  "2" : function () {
-    if ($(".selected").length > 0) {
-      $('li').off('click');
-      $(".hint").off('click');
-      answer = $(".selected").attr('id');
-      if (answer == 'option-a') {
-        score_silicon++;
-        displayProgress();
-      } else if (answer == 'option-b') {
-        score_west++;
-        displayProgress();
-      } 
-      else if (answer == 'option-c') {
-        score_north++;
-        displayProgress();
-      } 
-      else if (answer == 'option-d') {
-        score_jeff++;
-        score_cen++;
-        displayProgress();
-      } 
-      else if (answer == 'option-e') {
-        score_south++;
-        displayProgress();
-      };
+    "2" : function () {
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
 
-      console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+        if (answer == 'option-a') {
+          score_silicon++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_north++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_jeff++;
+          score_cen++;
+          displayProgress();
+        } 
+        else if (answer == 'option-e') {
+          score_south++;
+          displayProgress();
+        };
 
-    }
-  },
-
-  "3" : function () {
-    if ($(".selected").length > 0) {
-      $('li').off('click');
-      $(".hint").off('click');
-      answer = $(".selected").attr('id');
-      if (answer == 'option-a') {
-        score_south++;
-        displayProgress();
-      } else if (answer == 'option-b') {
-        score_cen++;
-        score_north++;
-        displayProgress();
-      } 
-      else if (answer == 'option-c') {
-        score_silicon++;
-        displayProgress();
-      } 
-      else if (answer == 'option-d') {
-        score_west++;
-        displayProgress();
-      } 
-      else if (answer == 'option-e') {
-        score_jeff++;
-        displayProgress();
-      };
-
-      console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
-
-    }
-  },
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+      }
+    },
 
     "3" : function () {
-    if ($(".selected").length > 0) {
-      $('li').off('click');
-      $(".hint").off('click');
-      answer = $(".selected").attr('id');
-      if (answer == 'option-a') {
-        score_south++;
-        displayProgress();
-      } else if (answer == 'option-b') {
-        score_cen++;
-        score_north++;
-        displayProgress();
-      } 
-      else if (answer == 'option-c') {
-        score_silicon++;
-        displayProgress();
-      } 
-      else if (answer == 'option-d') {
-        score_west++;
-        displayProgress();
-      } 
-      else if (answer == 'option-e') {
-        score_jeff++;
-        displayProgress();
-      };
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
 
-      console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+        if (answer == 'option-a') {
+          score_south++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_cen++;
+          score_north++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_silicon++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'option-e') {
+          score_jeff++;
+          displayProgress();
+        };
 
-    }
-  },
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+      }
+    },
 
     "4" : function () {
-    if ($(".selected").length > 0) {
-      $('li').off('click');
-      $(".hint").off('click');
-      answer = $(".selected").attr('id');
-      if (answer == 'option-a') {
-        score_jeff++;
-        displayProgress();
-      } else if (answer == 'option-b') {
-        score_silicon++;
-        displayProgress();
-      } 
-      else if (answer == 'option-c') {
-        score_north++;
-        score_south++;
-        displayProgress();
-      } 
-      else if (answer == 'option-d') {
-        score_west++;
-        score_cen++;
-        displayProgress();
-      };
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
 
-      console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+        if (answer == 'option-a') {
+          score_jeff++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_silicon++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_north++;
+          score_south++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_west++;
+          score_cen++;
+          displayProgress();
+        };
 
-    }
-  },
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+
+      }
+    },
 
     "5" : function () {
-    if ($(".selected").length > 0) {
-      $('li').off('click');
-      $(".hint").off('click');
-      answer = $(".selected").attr('id');
-      if (answer == 'option-a') {
-        score_north++;
-        score_jeff++;
-        displayProgress();
-      } else if (answer == 'option-b') {
-        score_silicon++;
-        score_cen++;
-        displayProgress();
-      } 
-      else if (answer == 'option-c') {
-        score_south++;
-        score_west++;
-        displayProgress();
-      };
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
 
-      console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+        if (answer == 'option-a') {
+          score_north++;
+          score_jeff++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_silicon++;
+          score_cen++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_south++;
+          score_west++;
+          displayProgress();
+        };
 
-    }
-  },
-}
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
 
-  // increment question count and built new question and answers
-  /* var nextQuestion1 = function () {
-    checkAnswer[1]();
+      }
+    },
+
+    "6" : function () {
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
+
+        if (answer == 'option-a') {
+          score_jeff++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_silicon++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_cen++;
+          displayProgress();
+        } 
+        else if (answer == 'option-e') {
+          score_south++;
+          displayProgress();
+        } 
+        else if (answer == 'option-f') {
+          score_north++;
+          displayProgress();
+        };
+
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+      }
+    },
+
+    "7" : function () {
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
+
+        if (answer == 'option-a') {
+          score_north++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_jeff++;
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_south++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_silicon++;
+          score_cen++;
+          displayProgress();
+        };
+
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+
+      }
+    },
+
+    "8" : function () {
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
+
+        if (answer == 'option-a') {
+          score_north++;
+          displayProgress();
+        } else if (answer == 'option-b') {
+          score_jeff++;
+          displayProgress();
+        } 
+        else if (answer == 'option-c') {
+          score_silicon++;
+          displayProgress();
+        } 
+        else if (answer == 'option-d') {
+          score_south++;
+          displayProgress();
+        } 
+        else if (answer == 'option-e') {
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'option-f') {
+          score_cen++;
+          displayProgress();
+        };
+
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+      }
+    },
+
+    "9" : function () {
+      if ($(".selected").length > 0) {
+        $('li').off('click');
+        answer = $(".selected").attr('id');
+
+        if (answer == 'Jefferson') {
+          score_jeff++;
+          displayProgress();
+        } else if (answer == 'West California') {
+          score_west++;
+          displayProgress();
+        } 
+        else if (answer == 'North California') {
+          score_north++;
+          displayProgress();
+        } 
+        else if (answer == 'Central California') {
+          score_cen++;
+          displayProgress();
+        } 
+        else if (answer == 'Silicon Valley') {
+          score_silicon++;
+          displayProgress();
+        } 
+        else if (answer == 'South California') {
+          score_south++;
+          displayProgress();
+        };
+
+        console.log(score_cen, score_jeff, score_west, score_north, score_south, score_silicon);
+      }
+    },
+
+  };
+
+  // click next button and jump to the next question
+  var next = function () { 
     trackEvent(
       'q' + qnumber + '-next',
       'Q' + qnumber + ' clicked to next question');
-    if (currentQuestion === (input.length-1)) {
-      $(".answer").append("<button class='qq-button check-score'>See Result</button>");
-      $('.check-score').on('click', finalScore);
-      }
-    else  {
-      currentQuestion++;
-      buildQuiz(input);
-      }
-  } */
-
-  var next = function () { 
-      trackEvent(
-        'q' + qnumber + '-next',
-        'Q' + qnumber + ' clicked to next question');
-        currentQuestion++;
-        buildQuiz(input);
+    currentQuestion++;
+    buildQuiz(input);
   }
 
   var nextQuestion = {
@@ -364,6 +422,16 @@
       next();
     },  
 
+     "7" : function () {
+      checkAnswer[7]();
+      next();
+    },  
+
+     "8" : function () {
+      checkAnswer[8]();
+      next();
+    },  
+
   };
 
   function trackEvent(action, label) {
@@ -374,37 +442,46 @@
     }
   }
 
-  // display final score card and social media sharing
+  // display final result card and social media sharing
   var link = document.URL
+
+  var finalScoreFinal = function () {
+    checkAnswer[9]();
+    finalScore();
+  };
+
   var finalScore = function () {
 
-    //var max_of_array = Math.max(score1, score2, score3, score4, score5, score6);
-    //console.log(max_of_array);
-
+    // compare scores for six states and find the highest one
     var compareScore = [
-
       {"state": "North California", "score": score_north},
       {"state": "Jefferson", "score": score_jeff},
       {"state": "Silicon Valley", "score": score_silicon},
       {"state": "South California", "score": score_south},
       {"state": "West California", "score": score_west},
       {"state": "Central California", "score": score_cen}
-
     ];
 
     compareScore.sort(function (a, b) {
         return a.score - b.score
     });
 
-    var min = compareScore[0].state,
-    max = compareScore[compareScore.length - 1].state;
+    window.max = compareScore[compareScore.length - 1].state,
+    window.max_2 = compareScore[compareScore.length - 2].state;
 
-    //if (compareScore[compareScore.length - 1].score ==  compareScore[compareScore.length - 2].score)
-        //{buildExtraQuiz()}
+    // add a final question if two states got the same score
+    if (compareScore[compareScore.length - 1].score ==  compareScore[compareScore.length - 2].score)
+       {
+        console.log("same");
+        console.log(window.max);
+        console.log(window.max_2);
+        buildExtraQuiz();
+       }
 
-   // else {
+    // show the final resuilt of quiz
+    else {
 
-        console.log(max);
+        console.log(window.max);
 
         trackEvent(
           'scored-' + score + '-of-' + input.length,
@@ -434,11 +511,11 @@
         }
 
         $(".quiz-container")
-          .html("<div class='scorecard'><p>You belong to</p><p>" + max 
-          //"<iframe scrolling='no' src='https://www.google.com/fusiontables/embedviz?q=select+col2%3E%3E1+from+1LCo9_5Pkv-i7LnoElctskeRapo1brklVPNiWgzNm&amp;viz=MAP&amp;h=false&amp;lat=37.45386207006738&amp;lng=-115.08785699999999&amp;t=1&amp;z=5&amp;l=col2%3E%3E1&amp;y=4&amp;tmplt=4&amp;hml=KML' frameborder='no' height='400' width='100%'></iframe>
+          .html("<div class='scorecard'><p>You belong to</p><p>" + window.max 
           + "</p><div id='description' style='margin: 20px;'></div><div id='social-media'><ul><li><a class=\"fb-share\" href='http://www.facebook.com/sharer.php?u=" + link + "' target='_blank'>" + facebook 
           + "</a></li><li><a class=\"twitter-share\" href='http://twitter.com/home?status=I belong to " + max + " according to KPCC six California quiz!" + link + " via @" + account + "' target='_blank'>" + twitter   + "</a></li></ul></div><p>Challenge your friends!</p></div>");
-              
+        
+        // social media sharing buttons     
         $('.quiz-container .fb-share').click(function() {
           trackEvent('shared-on-fb', 'Quiz shared on Facebook');
         });
@@ -449,10 +526,8 @@
           trackEvent('shared-on-gplus', 'Quiz shared on Google+');
         });
 
-        loadMap();
-      }
-
-       var loadMap = function () {
+        // Load the map with six california states
+        var loadMap = function () {
             $(".quiz-container").append("<div id='map-container' style='height: 400px; width: 100%;'></div>");
 
             var map = L.map('map-container').setView([37.335194502529724, -119.366455078125], 6);
@@ -463,7 +538,7 @@
                 minZoom: 6
             }).addTo(map);
 
-          function getColor(d) {
+            function getColor(d) {
                 return d == "Central California" ? '#800026' :
                        d == "North California"  ? '#BD0026' :
                        d == "South California"  ? '#E31A1C' :
@@ -474,11 +549,9 @@
 
             function style(feature) {
                 return {
-                    fillColor: getColor(feature.properties.six_california_states_six_states_proposal),
+                    fillColor: getColor(feature.properties.six_cali_1),
                     weight: 1,
-                    //opacity: 1,
                     color: 'black',
-                    //dashArray: '3',
                     fillOpacity: 0.7
                 };
             };
@@ -488,30 +561,31 @@
             function highlightFeature(e) {
                 var layer = e.target;
 
-                //Loop through all the counties and see if they matche the clicked one
                 var highlightedStyle = {
                     weight: 3,
-                    color: '#666',
-                    dashArray: '',
                     fillOpacity: 0.7,
                     fillColor: 'black'
                 };
 
-                 for (i = 0; i < sixCalifornia.features.length; i++) { 
-                     if (sixCalifornia.features[i].properties.six_california_states_six_states_proposal == layer.feature.properties.six_california_states_six_states_proposal)
-                        {console.log(sixCalifornia.features[i]);
-                        geojson.setStyle(style);
-                        this.setStyle(highlightedStyle);
-                        $("#description").html(layer.feature.properties.name);
-                        };
+              geojson.setStyle(style);
+              layer.setStyle(highlightedStyle);
+
+              function showResult(input) {
+                console.log(layer.feature.properties.six_cali_1);
+                console.log(input[1].explanation);
+
+                for (i = 0; i < 6; i++ ) {
+                  if (input[i].result == layer.feature.properties.six_cali_1) {
+                    $("#description").html(input[i].explanation);                   
+                  }
                 }; 
+              };
 
-                console.log(layer.feature);
-                console.log(sixCalifornia.features);
+              showResult(input);        
 
-                if (!L.Browser.ie && !L.Browser.opera) {
+              if (!L.Browser.ie && !L.Browser.opera) {
                     layer.bringToFront();
-                }
+              }
             }
 
             function onEachFeature(feature, layer) {
@@ -520,15 +594,20 @@
                 });
             }
 
-    };
+          };
 
-  // attach quiz and vertical-specific stylesheets
+      loadMap();
+      
+    };
+  };
+
+  // attach quiz and vertical-specific stylesheets, json and leaflet external files
   $('head').append('<link rel="stylesheet" href="http://assets.sbnation.com.s3.amazonaws.com/features/quiz-generator/quiz.css" type="text/css" />');
-  $('head').append('<link rel="stylesheet" href="stylesheets/quiz.kpcc.css" type="text/css" />');
-  //$('head').append('<link rel="stylesheet" href="' + pubStylesheet + '" type="text/css" />');
+  //$('head').append('<link rel="stylesheet" href="stylesheets/quiz.kpcc.css" type="text/css" />');
+  $('head').append('<link rel="stylesheet" href="' + pubStylesheet + '" type="text/css" />');
   $('head').append('<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />');
   $('head').append('<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>');
-  $('head').append('<script src="data/six-california.js"></script>');
+  $('head').append('<script src="data/six_states.js"></script>');
 
   
   function unpackQuizHack() {
