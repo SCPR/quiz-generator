@@ -51,10 +51,10 @@
         $(".answer").append("<button class='qq-button check-score'>See Result</button>");
         $('.check-score').on('click', finalScore);
         }
-        else { 
+        else {
         $(".answer").append("<button class='qq-button q" + qnumber + "'>Next</button>");
         $('.q' + qnumber).on('click', nextQuestion[qnumber]);
-        }      
+        }
     selectAnswer();
     trackEvent('q' + qnumber + '-displayed', 'Q' + qnumber + ' displayed');
   };
@@ -73,19 +73,19 @@
       {"state": "West California", "drink": "Champagne"},
       {"state": "Central California", "drink": "Beer"}
     ];
-        
-    for (i = 0; i < finalQuestion.length; i++) {    
+
+    for (i = 0; i < finalQuestion.length; i++) {
       if (finalQuestion[i].state == window.max || finalQuestion[i].state == window.max_2) {
          $(".answers").append("<li id='" + finalQuestion[i].state + "'>" + finalQuestion[i].drink + "</li>");
-      };                 
+      };
     };
-    
+
     $(".answer").append("<button class='qq-button check-score-final'>See Result</button>");
     $('.check-score-final').on('click', finalScoreFinal);
     selectAnswer();
-    
+
   };
-              
+
   // shows (1) out of (3) questinos
   var displayProgress = function () {
     $('.progress').html("<div class='progress'>Question " + qnumber + "&nbsp;of&nbsp;" + input.length + "</div>");
@@ -107,7 +107,7 @@
   var checkAnswer = {
 
     "1" : function () {
-      if ($(".selected").length > 0) { 
+      if ($(".selected").length > 0) {
         $('li').off('click');
         answer = $(".selected").attr('id');
 
@@ -117,19 +117,19 @@
         } else if (answer == 'option-b') {
           score_jeff++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_south++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-e') {
           score_north++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-f') {
           score_silicon++;
           displayProgress();
@@ -150,16 +150,16 @@
         } else if (answer == 'option-b') {
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_north++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_jeff++;
           score_cen++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-e') {
           score_south++;
           displayProgress();
@@ -181,15 +181,15 @@
           score_cen++;
           score_north++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_silicon++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-e') {
           score_jeff++;
           displayProgress();
@@ -210,12 +210,12 @@
         } else if (answer == 'option-b') {
           score_silicon++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_north++;
           score_south++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_west++;
           score_cen++;
@@ -240,7 +240,7 @@
           score_silicon++;
           score_cen++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_south++;
           score_west++;
@@ -263,19 +263,19 @@
         } else if (answer == 'option-b') {
           score_silicon++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_cen++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-e') {
           score_south++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-f') {
           score_north++;
           displayProgress();
@@ -297,11 +297,11 @@
           score_jeff++;
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_south++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_silicon++;
           score_cen++;
@@ -324,19 +324,19 @@
         } else if (answer == 'option-b') {
           score_jeff++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-c') {
           score_silicon++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-d') {
           score_south++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-e') {
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'option-f') {
           score_cen++;
           displayProgress();
@@ -357,19 +357,19 @@
         } else if (answer == 'West California') {
           score_west++;
           displayProgress();
-        } 
+        }
         else if (answer == 'North California') {
           score_north++;
           displayProgress();
-        } 
+        }
         else if (answer == 'Central California') {
           score_cen++;
           displayProgress();
-        } 
+        }
         else if (answer == 'Silicon Valley') {
           score_silicon++;
           displayProgress();
-        } 
+        }
         else if (answer == 'South California') {
           score_south++;
           displayProgress();
@@ -382,7 +382,7 @@
   };
 
   // click next button and jump to the next question
-  var next = function () { 
+  var next = function () {
     trackEvent(
       'q' + qnumber + '-next',
       'Q' + qnumber + ' clicked to next question');
@@ -395,12 +395,12 @@
     "1" : function () {
       checkAnswer[1]();
       next();
-    },  
+    },
 
     "2" : function () {
       checkAnswer[2]();
       next();
-    },  
+    },
 
     "3" : function () {
       checkAnswer[3]();
@@ -420,17 +420,17 @@
     "6" : function () {
       checkAnswer[6]();
       next();
-    },  
+    },
 
      "7" : function () {
       checkAnswer[7]();
       next();
-    },  
+    },
 
      "8" : function () {
       checkAnswer[8]();
       next();
-    },  
+    },
 
   };
 
@@ -511,11 +511,11 @@
         }
 
         $(".quiz-container")
-          .html("<div class='scorecard'><p>You belong to</p><p>" + window.max 
-          + "</p><div id='description' style='margin: 20px;'></div><div id='social-media'><ul><li><a class=\"fb-share\" href='http://www.facebook.com/sharer.php?u=" + link + "' target='_blank'>" + facebook 
+          .html("<div class='scorecard'><p>You belong to</p><p>" + window.max
+          + "</p><div id='description' style='margin: 20px;'></div><div id='social-media'><ul><li><a class=\"fb-share\" href='http://www.facebook.com/sharer.php?u=" + link + "' target='_blank'>" + facebook
           + "</a></li><li><a class=\"twitter-share\" href='http://twitter.com/home?status=I belong to " + max + " according to KPCC six California quiz!" + link + " via @" + account + "' target='_blank'>" + twitter   + "</a></li></ul></div><p>Challenge your friends!</p></div>");
-        
-        // social media sharing buttons     
+
+        // social media sharing buttons
         $('.quiz-container .fb-share').click(function() {
           trackEvent('shared-on-fb', 'Quiz shared on Facebook');
         });
@@ -545,7 +545,7 @@
                        d == "West California"  ? '#FC4E2A' :
                        d == "Silicon Valley"   ? '#FD8D3C' :
                                               '#FEB24C' ;
-            } 
+            }
 
             function style(feature) {
                 return {
@@ -576,12 +576,12 @@
 
                 for (i = 0; i < 6; i++ ) {
                   if (input[i].result == layer.feature.properties.six_cali_1) {
-                    $("#description").html(input[i].explanation);                   
+                    $("#description").html(input[i].explanation);
                   }
-                }; 
+                };
               };
 
-              showResult(input);        
+              showResult(input);
 
               if (!L.Browser.ie && !L.Browser.opera) {
                     layer.bringToFront();
@@ -597,19 +597,18 @@
           };
 
       loadMap();
-      
+
     };
   };
 
   // attach quiz and vertical-specific stylesheets, json and leaflet external files
   $('head').append('<link rel="stylesheet" href="http://assets.sbnation.com.s3.amazonaws.com/features/quiz-generator/quiz.css" type="text/css" />');
-  //$('head').append('<link rel="stylesheet" href="stylesheets/quiz.kpcc.css" type="text/css" />');
   $('head').append('<link rel="stylesheet" href="' + pubStylesheet + '" type="text/css" />');
+  $('head').append('<link rel="stylesheet" href="  http://projects.scpr.org/static/static-files/v3-dependencies/css/quiz.kpcc.css" type="text/css" />');
   $('head').append('<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />');
   $('head').append('<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>');
   $('head').append('<script src="data/six_states.js"></script>');
 
-  
   function unpackQuizHack() {
     var newInput = [];
     for ( var i = 0; i < input.length; i++ ) {
