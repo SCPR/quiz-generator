@@ -583,10 +583,13 @@
 
               showResult(input);
 
+
+
               if (!L.Browser.ie && !L.Browser.opera) {
                     layer.bringToFront();
               }
             }
+
 
             function onEachFeature(feature, layer) {
                 layer.on({
